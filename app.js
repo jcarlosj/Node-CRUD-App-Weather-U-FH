@@ -10,8 +10,13 @@ let encodedUrl = encodeURI( argv .direccion );      /** encodeURI() Reemplaza to
 /** Promise: Petición get usando Axios e implementa la API https://www.geoapify.com/ */
 axios .get( `http://api.geoapify.com/v1/geocode/search?text=${ encodedUrl }&limit=1&type=city&apiKey=9825d1acfb7948a683e77381150f8694` )
     .then( response => {
-        //console .log( response );
-        console .log( response .status );
-        console .log( JSON .stringify( response .data, undefined, 2 ) );    /**  JSON .stringify: Convierte el Objeto en un String permitiendo ver toda la estructura de datos */
+        let location = response .data .features[ 0 ],
+            format_address = `${ location .properties. country }, ${ location .properties. state }, ${ location .properties. name }`;
+        
+        console .group( 'Ubicacion', format_address );
+        console .log( 'Latitud', location .properties .lat );
+        console .log( 'Longitud', location .properties .lon );
+        console .groupEnd();
+
     })
     .catch( err => console .error( 'ERROR!!!', err ) );
