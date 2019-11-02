@@ -7,11 +7,11 @@ const
 console .log( argv .direccion );    // Bogota Colombia
 
 /** Promesa: Obtiene datos ciudad */
-// place .getPlaceLatLng( argv .direccion )
-//     .then( data => {
-//         console .log( data );
-//     })
-//     .catch( err => console .log( 'Error', err ) );
+place .getPlaceLatLng( argv .direccion )
+    .then( data => {
+        console .log( data );
+    })
+    .catch( err => console .log( 'Error', err ) );
 
 weather .getWeatherByLatLng( 3.4517923, -76.5324943 ) 
     .then( data => {
