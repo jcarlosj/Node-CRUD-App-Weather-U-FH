@@ -2,22 +2,47 @@ const axios = require( 'axios' );
 
 const getPlaceLatLng = async ( direccion ) => {
     let 
-        encodedUrl = encodeURI( direccion ),      /** encodeURI() Reemplaza todos los caracteres excepto los siguientes con las secuencias de escape UTF-8 */
-        response = await axios .get( `http://api.geoapify.com/v1/geocode/search?text=${ encodedUrl }&limit=1&type=city&apiKey=9825d1acfb7948a683e77381150f8694` );      /** Petición get usando Axios e implementa la API https://www.geoapify.com/ */
+        data = false,
+        name_place = encodeURI( direccion ),      /** encodeURI() Reemplaza todos los caracteres excepto los siguientes con las secuencias de escape UTF-8 */
+        api_key = '9e9016821f034b8e98c65f3b509c44e5',
+        api_url = `https://api.opencagedata.com/geocode/v1/json`,      /** API https://www.opencagedata.com/ */
+        request_url = `${ api_url }?key=${ api_key }&q=${ name_place }`; 
+        
+        response = await axios .get( request_url );      /** Petición get usando Axios */
 
-        if( response .data .features .length === 0 ) {
-            throw new Error( `No hay resultados para la ciudad ${ encodedUrl }` );
+        console .group( 'Data OpencageData' );
+        console .log( ' > URL', request_url );
+
+        if( response .status == 200 ) {
+            // console .log( 'results', response .data .results );
+
+            if ( response .data .results .length > 0 ) {
+                let place = response .data .results[ 0 ];
+
+                // console .log( ' > Formato', place .formatted );
+                // console .log( ' > Posicion', place .geometry );
+                // console .log( ' > Zona Horaria', place .annotations .timezone .name );
+
+                data = {
+                    direccion: place .formatted,
+                    latitud: place .geometry .lat,
+                    longitud: place .geometry .lng,
+                    zona: place .annotations .timezone .name
+                }
+            }
+            else if ( response .data .status .code == 402 ) {
+                console .log( 'hit free-trial daily limit' );
+                console .log( 'become a customer: https://opencagedata.com/pricing' ); 
+            } else {
+                // other possible response codes:
+                // https://opencagedata.com/api#codes
+                console .log( 'error', response .data .status .message );
+            }
         }
-            
-        let location = response .data .features[ 0 ];
 
-        console .log( 'Data GeoAPIfy', location );
+        console .groupEnd();
 
-        return {
-            direccion: `${ location .properties. country }, ${ location .properties. state }, ${ location .properties. name }`,
-            latitud: location .properties .lat,
-            longitud: location .properties .lon
-        }      
+        return data;
 } 
 
 module .exports = {
