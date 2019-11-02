@@ -32,11 +32,12 @@ const getPlaceLatLng = async ( direccion ) => {
             else if ( response .data .status .code == 402 ) {
                 console .log( 'hit free-trial daily limit' );
                 console .log( 'become a customer: https://opencagedata.com/pricing' ); 
-            } else {
-                // other possible response codes:
-                // https://opencagedata.com/api#codes
-                console .log( 'error', response .data .status .message );
-            }
+            } 
+            // else {
+            //     // other possible response codes:
+            //     // https://opencagedata.com/api#codes
+            //     console .log( 'error', response .data .status .message );
+            // }
         }
 
         console .groupEnd();
