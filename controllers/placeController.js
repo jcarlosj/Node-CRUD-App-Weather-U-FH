@@ -10,8 +10,7 @@ const getPlaceLatLng = async ( direccion ) => {
         
         response = await axios .get( request_url );      /** Petición get usando Axios */
 
-        console .group( 'Data OpencageData' );
-        console .log( ' > URL', request_url );
+        console .group( 'Data OpencageData > URL', request_url );
 
         if( response .status == 200 ) {
             // console .log( 'results', response .data .results );

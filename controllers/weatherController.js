@@ -10,8 +10,7 @@ const getWeatherByLatLng = async ( lat, lng ) => {
     
         response = await axios .get ( request_url );     /** Petición get usando Axios */
 
-    console .group( 'Data OpenWeather' );
-    console .log( ' > URL', request_url );
+    console .group( 'Data OpenWeather > URL', request_url );
     
     if( response .status == 200 ) {
 

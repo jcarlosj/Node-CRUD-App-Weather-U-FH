@@ -6,15 +6,13 @@ const
 /** Al ejecutar: node app -d "Bogota Colombia" */
 console .log( argv .direccion );    // Bogota Colombia
 
-/** Promesa: Obtiene datos ciudad */
-place .getPlaceLatLng( argv .direccion )
-    .then( data => {
-        console .log( 'Ubicación \n', data );
-    })
-    .catch( err => console .log( 'Error', err ) );
+let getInfo = async ( direccion ) => {
+    let info_place = await place .getPlaceLatLng( direccion );
+        info_weather = await weather .getWeatherByLatLng( info_place .latitud, info_place .longitud );
+        
+        return `El clima en la ciudad de ${ info_place .direccion } es de ${ info_weather .temperatura }°C`;
+};
 
-weather .getWeatherByLatLng( 3.4517923, -76.5324943 ) 
-    .then( data => {
-        console .log( 'Temperatura \n', data .temperatura );
-    }) 
-    .catch( err => console .log( 'Error', err ) );
+getInfo( argv .direccion )
+    .then( msg => console .log( msg ) )
+    .catch( err => console .log( err ) );
