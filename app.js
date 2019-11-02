@@ -9,12 +9,12 @@ console .log( argv .direccion );    // Bogota Colombia
 /** Promesa: Obtiene datos ciudad */
 place .getPlaceLatLng( argv .direccion )
     .then( data => {
-        console .log( data );
+        console .log( 'Ubicación \n', data );
     })
     .catch( err => console .log( 'Error', err ) );
 
 weather .getWeatherByLatLng( 3.4517923, -76.5324943 ) 
     .then( data => {
-        console .log( 'Temperatura', data .temperatura );
+        console .log( 'Temperatura \n', data .temperatura );
     }) 
     .catch( err => console .log( 'Error', err ) );
